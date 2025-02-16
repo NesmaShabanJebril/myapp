@@ -1,0 +1,107 @@
+$(function () {
+
+    var business_slide = new Swiper(".sec02 .business_slide", {
+        loop: true,
+        speed: 1000,
+        //pagination: {
+        //    el: '.sec02 .swiper-pagination',
+        //},
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: '.sec02 .business_btn .next',
+            prevEl: '.sec02 .business_btn .prev',
+        },
+        breakpoints: {
+
+        },
+    });
+
+    var customer_slide = new Swiper('.sec05 .customer_slide', {
+        slidesPerView: "auto",
+        spaceBetween: 30,
+        breakpoints: {
+            1081: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            767: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+            }
+
+        },
+        pagination: {
+            el: '.sec05 .num_box',
+            clickable: true,
+            type: 'fraction',
+            renderFraction: function (currentClass, totalClass) {
+                return '<span class= "bold"> 0</span>' + '<span class= " ' + currentClass + '"></span>' + ' / ' +
+                    '<span class= "gray"> 0</span>' + '<span class= "' + totalClass + '"></span>';
+            }
+        },
+        navigation: {
+            nextEl: '.sec05 .swiper-button-next',
+            prevEl: '.sec05 .swiper-button-prev',
+        },
+        scrollbar: {
+            el: '.sec05 .swiper_scrollbar',
+        },
+    });
+});
+$(document).ready(function () {
+    $(".sec01").addClass("on")
+    $(".circle_box").addClass("on");
+
+	var con = {
+        init: function () {
+            this.sideNavi();
+        },
+        sideNavi: function () {
+            $('.side_navi a').on('click', function (e) {
+                e.preventDefault();
+                var $target = $(this),
+                    idx = $target.index(),
+                    section = $('.section').eq(idx),
+                    offsetTop = section.offset().top + 1;
+
+
+                $('html, body').stop().animate({
+                    scrollTop: offsetTop
+                }, 800);
+                return false;
+            });
+            $(window).scroll(function (e) {
+                var scltop = $(window).scrollTop();
+                $.each($('.section'), function (idx, item) {
+                    var $target = $('.section').eq(idx),
+                        i = $target.index(),
+                        targetTop = $target.offset().top;
+                    if (targetTop <= scltop) {
+                        $('.side_navi a').removeClass('active');
+                        $('.side_navi a').eq(idx).addClass('active');
+                    }
+                    if (!(0 <= scltop)) {
+                        $('.side_navi a').removeClass('active');
+                    }
+                });
+                if ($(window).width() > 1500) {
+                    if ($(window).scrollTop() + $(window).height() == $(document).height() && $(window).width() >= 1600) {
+                        $('.side_navi').css('display', 'none');
+                    } else {
+                        $('.side_navi').css('display', 'block');
+                    }
+                } else {
+                    $('.side_navi').css('display', 'none');
+                }
+
+            });
+
+        }
+    }
+
+    con.init();
+
+});
